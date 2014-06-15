@@ -16,18 +16,20 @@ public class App {
 		session.beginTransaction();
 
 		Stock stock = new Stock();
-		stock.setStockId(1);
-        stock.setStockCode("705222");
-        stock.setStockName("PADINIW");
-        session.merge(stock);
+		stock.setStockId(25);
+        stock.setStockCode("43082");
+        stock.setStockName("AdddNIt");
+        //session.merge(stock);
         
         StockDailyRecord stockDailyRecords = new StockDailyRecord();
-        stockDailyRecords.setRecordId(1);
-        stockDailyRecords.setPriceOpen(new Float("1.22"));
+        stockDailyRecords.setRecordId(4);
+        stockDailyRecords.setPriceOpen(new Float("1.29452"));
         stockDailyRecords.setPriceClose(new Float("1.1"));
         stockDailyRecords.setPriceChange(new Float("10.0"));
         stockDailyRecords.setVolume(3000000L);
-        stockDailyRecords.setDate(new Date());
+        Date date = new Date();
+        date.setDate(1);
+        stockDailyRecords.setDate(date);
         
         stockDailyRecords.setStock(stock);        
         stock.getStockDailyRecords().add(stockDailyRecords);
@@ -35,6 +37,18 @@ public class App {
         session.merge(stockDailyRecords);
 
 		session.getTransaction().commit();
+		session.flush();
+		
 		System.out.println("Done");
+		
+		session = HibernateUtil.getSessionFactory().openSession();
+
+		session.beginTransaction();
+		StockDailyRecord dailyRecord = (StockDailyRecord) session.load(StockDailyRecord.class, 4);
+		dailyRecord.setStock(null);
+		session.delete(dailyRecord);
+		session.getTransaction().commit();
+		
+		
 	}
 }
