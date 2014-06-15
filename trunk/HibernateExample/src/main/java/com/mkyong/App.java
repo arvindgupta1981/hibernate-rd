@@ -2,6 +2,7 @@ package com.mkyong;
 
 import java.util.Date;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 
 import com.mkyong.stock.Stock;
@@ -35,11 +36,25 @@ public class App {
         stock.getStockDailyRecords().add(stockDailyRecords);
 
         session.merge(stockDailyRecords);
-
-		session.getTransaction().commit();
+        session.getTransaction().commit();
 		session.flush();
 		
+		
+		Query query = session.createQuery("from Stock where id = :id");
+		query.setParameter("id", 25);
+        Stock stk = (Stock) query.list().get(0);
+        System.out.println("code:" + stk.getStockCode());
+        
+        query = session.createQuery("select stockName,stockCode from Stock where id = :id");
+		query.setParameter("id", 25);
+        Object[] stkArr = (Object[]) query.list().get(0);
+        System.out.println("code:" + stkArr[1]);
+		
+		
 		System.out.println("Done");
+		
+		
+		
 		
 		session = HibernateUtil.getSessionFactory().openSession();
 
