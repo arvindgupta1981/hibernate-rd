@@ -27,4 +27,8 @@
             <column name="DATE" length="10" not-null="true" />
         </property>
     </class>
+    
+     <query name="findDailyStockByStockCode">
+        <![CDATA[from StockDailyRecord sdr  where sdr.stock.stockCode = :stockCode]]>
+    </query>
 </hibernate-mapping>

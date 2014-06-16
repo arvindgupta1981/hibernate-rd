@@ -2,8 +2,10 @@ package com.mkyong;
 
 import java.util.Date;
 
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 
 import com.mkyong.stock.Stock;
 import com.mkyong.stock.StockDailyRecord;
@@ -40,17 +42,24 @@ public class App {
 		session.flush();
 		
 		
-		Query query = session.createQuery("from Stock where id = :id");
-		query.setParameter("id", 25);
-        Stock stk = (Stock) query.list().get(0);
-        System.out.println("code:" + stk.getStockCode());
         
-        query = session.createQuery("select stockName,stockCode from Stock where id = :id");
+		Query query = session.createQuery("select stockName,stockCode from Stock where id = :id");
 		query.setParameter("id", 25);
         Object[] stkArr = (Object[]) query.list().get(0);
         System.out.println("code:" + stkArr[1]);
 		
 		
+        query = session.getNamedQuery("findDailyStockByStockCode");
+        query.setString("stockCode", "43082");
+        StockDailyRecord stockDailyRecord = (StockDailyRecord) query.list().get(0);
+        System.out.println("price:" + stockDailyRecord.getPriceChange());
+        
+        
+        Criteria criteria = session.createCriteria(StockDailyRecord.class);
+        criteria.add(Restrictions.gt("priceOpen", 1F));
+        stockDailyRecord = (StockDailyRecord) criteria.list().get(0);
+        System.out.println("price:" + stockDailyRecord.getPriceChange());
+        
 		System.out.println("Done");
 		
 		
@@ -64,6 +73,10 @@ public class App {
 		session.delete(dailyRecord);
 		session.getTransaction().commit();
 		
+		query = session.createQuery("from Stock where id = :id");
+		query.setParameter("id", 25);
+		Stock stk = (Stock) query.list().get(0);
+		System.out.println("code:" + stk.getStockCode());
 		
 	}
 }

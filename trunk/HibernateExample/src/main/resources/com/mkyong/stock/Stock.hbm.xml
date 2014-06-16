@@ -14,11 +14,12 @@
         <property name="stockName" type="string">
             <column name="STOCK_NAME" length="20" not-null="true" unique="true" />
         </property>
-         <set name="stockDailyRecords" table="stock_daily_record" inverse="true" lazy="true" fetch="select">
+         <list name="stockDailyRecords" table="stock_daily_record" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="STOCK_ID" not-null="true" />
             </key>
+            <index column="stockCode"></index>  
             <one-to-many class="com.mkyong.stock.StockDailyRecord" />
-        </set> 
+        </list> 
     </class>
 </hibernate-mapping>

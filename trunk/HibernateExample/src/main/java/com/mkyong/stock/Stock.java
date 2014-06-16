@@ -1,6 +1,7 @@
 package com.mkyong.stock;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 public class Stock implements java.io.Serializable {
@@ -8,7 +9,7 @@ public class Stock implements java.io.Serializable {
 	private Integer stockId;
 	private String stockCode;
 	private String stockName;
-	private Set<StockDailyRecord> stockDailyRecords = new HashSet<StockDailyRecord>(
+	private List<StockDailyRecord> stockDailyRecords = new ArrayList<StockDailyRecord>(
 			0);
 
 	public Stock() {
@@ -20,7 +21,7 @@ public class Stock implements java.io.Serializable {
 	}
 
 	public Stock(String stockCode, String stockName,
-			Set<StockDailyRecord> stockDailyRecords) {
+			List<StockDailyRecord> stockDailyRecords) {
 		this.stockCode = stockCode;
 		this.stockName = stockName;
 		this.stockDailyRecords = stockDailyRecords;
@@ -50,11 +51,11 @@ public class Stock implements java.io.Serializable {
 		this.stockName = stockName;
 	}
 
-	public Set<StockDailyRecord> getStockDailyRecords() {
+	public List<StockDailyRecord> getStockDailyRecords() {
 		return this.stockDailyRecords;
 	}
 
-	public void setStockDailyRecords(Set<StockDailyRecord> stockDailyRecords) {
+	public void setStockDailyRecords(List<StockDailyRecord> stockDailyRecords) {
 		this.stockDailyRecords = stockDailyRecords;
 	}
 
